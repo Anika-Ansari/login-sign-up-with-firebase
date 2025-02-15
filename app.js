@@ -1,24 +1,4 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDV7zBqXaoDZD6GS_qMjcEbHWGyJii7pAg",
-  authDomain: "authentication-7283b.firebaseapp.com",
-  projectId: "authentication-7283b",
-  storageBucket: "authentication-7283b.firebasestorage.app",
-  messagingSenderId: "782283696461",
-  appId: "1:782283696461:web:d4cc41fe5703441f082f04",
-  measurementId: "G-BN1MDLX2ED"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import { auth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from "./firebase.js ";
 
 const submit = document.getElementById("submit")
 if (submit)
@@ -64,6 +44,7 @@ if (submit)
           // ..
         });
     }
+   
   });
 
 const button = document.getElementById("login")
@@ -108,7 +89,7 @@ if (button)
           icon: "info",
           confirmButtonText: "Next",
           customClass: {
-            confirmButton: "custom-code-button",
+            confirmButton: "custom-signup-button",
           },
         })
         const errorMessage = error.message;
@@ -118,7 +99,7 @@ if (button)
           icon: "error",
           confirmButtonText: "Close",
           customClass: {
-            confirmButton: "custom-message-button",
+            confirmButton: "custom-signup-button",
           },
         });
       })
