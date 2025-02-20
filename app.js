@@ -1,4 +1,19 @@
-import { auth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from "./firebase.js ";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDV7zBqXaoDZD6GS_qMjcEbHWGyJii7pAg",
+  authDomain: "authentication-7283b.firebaseapp.com",
+  projectId: "authentication-7283b",
+  storageBucket: "authentication-7283b.firebasestorage.app",
+  messagingSenderId: "782283696461",
+  appId: "1:782283696461:web:d4cc41fe5703441f082f04",
+  measurementId: "G-BN1MDLX2ED"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 const submit = document.getElementById("submit")
 if (submit)
@@ -33,18 +48,36 @@ if (submit)
             },
             allowOutsideClick: false, // Prevent closing the modal by clicking outside
           });
+
+          sendEmailVerification(user)
+            .then(() => {
+              // Email verification sent!
+              Swal.fire({
+                title: "Verify Your Email!",
+                text: "A verification link has been sent to your email. Please verify before logging in.",
+                icon: "info",
+                confirmButtonText: "OK",
+                customClass: {
+                  confirmButton: 'custom-ok-button'
+                }
+              });
+            });
+
           name.value = "";
           email.value = "";
           password.value = "";
           // ...
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // ..
+          Swal.fire({
+            title: "Verification Error!",
+            text: error.message,
+            icon: "error",
+            confirmButtonText: "Retry"
+          });
         });
+
     }
-   
   });
 
 const button = document.getElementById("login")
@@ -73,10 +106,10 @@ if (button)
           icon: "success", // Success icon for successful login
           confirmButtonText: 'Continue', // Custom button text
           customClass: {
-              confirmButton: 'custom-signup-button' // Keep custom styling for the button
+            confirmButton: 'custom-signup-button' // Keep custom styling for the button
           },
           allowOutsideClick: false, // Prevent closing the modal by clicking outside
-      });
+        });
         loginEmail.value = "";
         loginPassword.value = "";
         // ...
@@ -104,4 +137,43 @@ if (button)
         });
       })
   });
+
+const forgotPasswordBtn = document.getElementById("forgotPasswordBtn");
+if (forgotPasswordBtn)
+  forgotPasswordBtn.addEventListener("click", function () {
+    const loginEmail = document.getElementById("loginEmail");
+
+    if (!loginEmail.value) {
+      Swal.fire({
+        title: "Enter Your Email!",
+        icon: "warning",
+        customClass: {
+          confirmButton: "custom-ok-button",
+        },
+      });
+      return;
+
+    }
+
+    sendPasswordResetEmail(auth, loginEmail.value)
+      .then(() => {
+        Swal.fire({
+          title: "Password Reset Email Sent!",
+          text: "Check your email to reset your password.",
+          icon: "success",
+          customClass: {
+            confirmButton: "custom-ok-button",
+          },
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: error.message,
+          icon: "error",
+          confirmButtonText: "Close",
+        });
+      });
+  });
+
 

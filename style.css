@@ -110,3 +110,8 @@ button:hover{
 .custom-signup-button:hover {
 	background-color: #0056b3 !important; /* Darker blue on hover */
 }
+.form a{
+	display: flex;
+	text-align: center;
+	justify-content: center;
+}
